@@ -54,7 +54,9 @@ fn do_network(ip: String) {
         if stream.is_some() {
             let mut s = stream.unwrap();
 
-            push_audio_buffer(bytes_data, &mut s).expect("stream died on us");
+            if let Err(e) = push_audio_buffer(bytes_data, &mut s) {
+                println!("error in output stream: '{}' carrying on.", e)
+            }
 
             // rust is funny
             stream = Some(s);
