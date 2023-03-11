@@ -15,6 +15,12 @@ pub  struct VBanPacket {
     frame_cnt: u32
 }
 
+impl VBanPacket {
+    pub fn get_seq_num(&self) -> u32 {
+        self.frame_cnt
+    }
+}
+
 
 pub  const  HEADER_SIZE: usize = mem::size_of::<VBanPacket>();
 const VBAN_MAGIC: [u8; 4] = *b"VBAN";
@@ -108,6 +114,10 @@ impl VBanPacket {
 
     pub fn stream_name(&self) -> Result<String, FromUtf8Error> {
         String::from_utf8(self.stream_name.to_vec())
+    }
+
+    pub fn get_channels(&self) -> u8 {
+        self.channels
     }
 
     pub fn from_bytes<'a>(bytes: &[u8; HEADER_SIZE]) -> VBanPacket {
